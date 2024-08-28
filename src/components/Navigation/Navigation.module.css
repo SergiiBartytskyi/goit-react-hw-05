@@ -1,0 +1,31 @@
+.header {
+  display: flex;
+  align-items: center;
+  padding: 20px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0px 0px 10px 10px gray;
+}
+
+.nav {
+  display: flex;
+  gap: 20px;
+}
+
+.link {
+  border-bottom: 2px solid transparent;
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+  font-size: 30px;
+  transition: border-bottom 250ms linear, color 250ms linear, color 250ms linear
+}
+
+.link:hover,
+.link:focus {
+  border-bottom: 2px solid currentColor;
+  color: orangered;
+}
+
+.active {
+  color: orangered;
+}

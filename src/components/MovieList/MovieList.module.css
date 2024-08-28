@@ -1,0 +1,47 @@
+.container {
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.wrapper {
+  flex-basis: calc((100% - 40px) / 5);
+  border: 2px solid black;
+  padding: 5px;
+}
+
+.item {
+  width: 100%;
+  height: 400px;
+
+}
+
+.img {
+  height: 350px;
+}
+
+.title {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 50px;
+  padding: 10px;
+  overflow: hidden;
+  color: currentColor;
+  transition: color 250ms linear;
+}
+
+.wrapper:hover .title,
+.wrapper:focus .title {
+  color: orangered;
+}
+
+.empty {
+  height: 350px;
+  background-color: gray;
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
+}
