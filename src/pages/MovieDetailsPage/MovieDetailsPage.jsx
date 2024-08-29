@@ -21,7 +21,6 @@ const MovieDetailsPage = () => {
   const [error, setError] = useState(false);
   const backLinkHref = location.state?.from || "/movies";
 
-  console.log(location.state);
   const onClickBack = () => navigate(backLinkHref);
 
   useEffect(() => {
@@ -30,9 +29,9 @@ const MovieDetailsPage = () => {
 
     const getMovie = async () => {
       try {
-        setMovie(null);
         setLoading(true);
         setError(false);
+        setMovie(null);
         const movieDetails = await fetchMovieDetails(movieId, { signal });
         setMovie(movieDetails);
       } catch (error) {

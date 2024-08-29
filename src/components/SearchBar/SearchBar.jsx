@@ -1,25 +1,17 @@
-import { useState, forwardRef } from "react";
+import { forwardRef } from "react";
 import css from "./SearchBar.module.css";
 
 const SearchBar = forwardRef(function SearchBarComponent({ onSearch }, ref) {
-  const [query, setQuery] = useState("");
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (query.trim()) {
-      onSearch(query.trim());
-    }
+    const query = e.target.elements.query.value;
+    onSearch(query.trim());
   };
 
   return (
     <form onSubmit={handleSubmit} className={css.form} ref={ref}>
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        className={css.search}
-      />
+      <input type="text" name="query" className={css.search} />
       <button type="submit">Search</button>
     </form>
   );
