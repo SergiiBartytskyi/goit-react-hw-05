@@ -6,51 +6,7 @@
   gap: 10px;
 }
 
-/* .form {
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.search {
-  width: 250px;
-  height: 50px;
-  font-size: 24px;
-  padding: 10px;
-  font-weight: 500;
-  margin-right: 20px;
-  border-radius: 8px;
-} */
-
 .error {
   font-size: 24px;
   font-weight: 600;
-}
-
-.scrollBtn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 4em;
-  height: 4em;
-  border-radius: 50%;
-  border: none;
-  background-color: orangered;
-}
-
-.reactIcons {
-  color: black;
-  width: 4em;
-  height: 4em;
-  transition: color 250ms linear;
-}
-
-.scrollBtn:hover .reactIcons,
-.scrollBtn:focus .reactIcons {
-  color: white;
 }

@@ -50,7 +50,7 @@ const MovieCast = () => {
               <div className={css.wrapper}>
                 {profile_path ? (
                   <img
-                    src={`https://image.tmdb.org/t/p/w200/${profile_path}`}
+                    src={`https://image.tmdb.org/t/p/w92/${profile_path}`}
                     alt={name}
                   />
                 ) : (

@@ -1,31 +1,31 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
 }
 
 .wrapper {
   display: flex;
-  gap: 20px;
+  gap: 10px;
 }
 
 .info {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 .text {
-  font-size: 24px;
+  font-size: 18px;
 }
 
 .empty {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 200px;
-  height: 300px;
+  width: 92px;
+  height: 138px;
   background-color: gray;
 
 }
@@ -36,6 +36,6 @@
 }
 
 .error {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 600;
 }

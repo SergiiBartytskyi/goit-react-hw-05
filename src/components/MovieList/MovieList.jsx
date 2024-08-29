@@ -25,6 +25,7 @@ const MovieList = ({ movies, lastMovieRef }) => {
                   src={`https://image.tmdb.org/t/p/w300${backdrop_path}`}
                   alt={title}
                   className={css.img}
+                  height={300}
                 />
               ) : (
                 <div className={css.empty}>

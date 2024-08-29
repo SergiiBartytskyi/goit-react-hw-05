@@ -6,23 +6,20 @@ import MovieList from "../../components/MovieList/MovieList";
 import LoadMoreBtn from "../../components/LoadMoreBtn/LoadMoreBtn";
 import Loader from "../../components/Loader/Loader";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
-import { BiArrowToTop } from "react-icons/bi";
 import toast, { Toaster } from "react-hot-toast";
 import css from "./MoviesPage.module.css";
 
 const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const query = searchParams.get("query") || "";
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const searchFormRef = useRef(null);
   const lastMovieRef = useRef(null);
 
-  console.log(searchParams);
+  const query = searchParams.get("query") || "";
+  const currentPage = Number(searchParams.get("page")) || 1;
 
   useEffect(() => {
     if (!loading && lastMovieRef.current) {
@@ -39,19 +36,19 @@ const MoviesPage = () => {
         try {
           setLoading(true);
           setError(false);
+
           const data = await searchMovies(query, {
             signal,
             page: currentPage,
           });
+
           setMovies((prevMovies) => [...prevMovies, ...data.results]);
           setTotalPages(data.totalPages);
           setHasSearched(true);
-          console.log("After fetch");
         } catch (error) {
           if (error.name !== "AbortError") {
             setError(true);
           }
-          console.log("MoviePage Error");
         } finally {
           setLoading(false);
         }
@@ -65,27 +62,19 @@ const MoviesPage = () => {
     }
   }, [query, currentPage]);
 
-  const handleSearch = async (newQuery) => {
+  const handleSearch = (newQuery) => {
     if (newQuery === "") {
       toast.error("Enter some title!");
       return;
     } else {
-      setSearchParams({ query: newQuery });
+      setSearchParams({ query: newQuery, page: 1 });
       setMovies([]);
-      setCurrentPage(1);
     }
   };
 
   const loadMoreMovies = () => {
     const nextPage = currentPage + 1;
-
-    setCurrentPage(nextPage);
-  };
-
-  const scrollToTop = () => {
-    if (searchFormRef.current) {
-      searchFormRef.current.scrollIntoView({ behavior: "smooth" });
-    }
+    setSearchParams({ query, page: nextPage });
   };
 
   const shouldShowLoadMore =
@@ -93,7 +82,7 @@ const MoviesPage = () => {
 
   return (
     <main className={css.container}>
-      <SearchBar onSearch={handleSearch} ref={searchFormRef} />
+      <SearchBar onSearch={handleSearch} />
 
       {hasSearched &&
         (movies.length > 0 ? (
@@ -107,10 +96,6 @@ const MoviesPage = () => {
       {loading && <Loader />}
       {error && <ErrorMessage />}
       <Toaster position="top-right" reverseOrder={false} />
-
-      <button onClick={scrollToTop} className={css.scrollBtn}>
-        <BiArrowToTop className={css.reactIcons} />
-      </button>
     </main>
   );
 };

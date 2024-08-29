@@ -19,6 +19,7 @@ const MovieDetailsPage = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+
   const backLinkHref = location.state?.from || "/movies";
 
   const onClickBack = () => navigate(backLinkHref);
@@ -56,7 +57,7 @@ const MovieDetailsPage = () => {
 
   const { title, release_date, poster_path, vote_average, overview, genres } =
     movie;
-  const releaseYear = new Date(release_date).getFullYear();
+  const releaseYear = new Date(release_date).getFullYear() || "-";
   const titleWithYear = `${title} (${releaseYear})`;
 
   return (
@@ -68,7 +69,7 @@ const MovieDetailsPage = () => {
       <div className={css.wrapper}>
         {poster_path ? (
           <img
-            src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
+            src={`https://image.tmdb.org/t/p/w300/${poster_path}`}
             alt={title}
           />
         ) : (
@@ -95,14 +96,10 @@ const MovieDetailsPage = () => {
           )}
         </div>
       </div>
-
       {loading && <Loader />}
       {error && <ErrorMessage />}
-
       <hr />
-
       <p className={css.text}>Additional information</p>
-
       <ul className={css.addInfo}>
         <li className={css.addInfoLink}>
           <Link
@@ -123,9 +120,7 @@ const MovieDetailsPage = () => {
           </Link>
         </li>
       </ul>
-
       <hr />
-
       <Suspense fallback={<Loader />}>
         <Outlet />
       </Suspense>

@@ -48,7 +48,6 @@ const fetchMovieCast = async (movie_id) => {
       movie_id,
     },
   });
-
   return response.data.cast;
 };
 const fetchMovieReviews = async (movie_id) => {

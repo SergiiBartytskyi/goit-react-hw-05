@@ -29,3 +29,32 @@
 .active {
   color: orangered;
 }
+
+.scrollBtn {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background-color: orangered;
+}
+
+.reactIcon {
+  position: fixed;
+  color: black;
+  width: 30px;
+  height: 30px;
+
+  transition: color 250ms linear;
+}
+
+.scrollBtn:hover .reactIcon,
+.scrollBtn:focus .reactIcon {
+  color: white;
+}

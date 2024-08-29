@@ -1,4 +1,6 @@
+import { useRef } from "react";
 import { NavLink } from "react-router-dom";
+import { BiArrowToTop } from "react-icons/bi";
 import clsx from "clsx";
 import css from "./Navigation.module.css";
 
@@ -7,16 +9,26 @@ const buildLinkClass = ({ isActive }) => {
 };
 
 const Navigation = () => {
+  const navigationRef = useRef(null);
+
+  const scrollToTop = () => {
+    if (navigationRef.current) {
+      navigationRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   return (
     <header className={css.header}>
       <nav className={css.nav}>
-        <NavLink to="/" className={buildLinkClass}>
+        <NavLink to="/" className={buildLinkClass} ref={navigationRef}>
           Home
         </NavLink>
-        <NavLink to="/movies" className={buildLinkClass}>
+        <NavLink to="/movies" className={buildLinkClass} ref={navigationRef}>
           Movies
         </NavLink>
       </nav>
+      <button onClick={scrollToTop} className={css.scrollBtn}>
+        <BiArrowToTop className={css.reactIcon} />
+      </button>
     </header>
   );
 };

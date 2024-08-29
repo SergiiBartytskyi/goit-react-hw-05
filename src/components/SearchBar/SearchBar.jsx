@@ -1,7 +1,6 @@
-import { forwardRef } from "react";
 import css from "./SearchBar.module.css";
 
-const SearchBar = forwardRef(function SearchBarComponent({ onSearch }, ref) {
+const SearchBar = ({ onSearch }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -10,11 +9,11 @@ const SearchBar = forwardRef(function SearchBarComponent({ onSearch }, ref) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={css.form} ref={ref}>
+    <form onSubmit={handleSubmit} className={css.form}>
       <input type="text" name="query" className={css.search} />
       <button type="submit">Search</button>
     </form>
   );
-});
+};
 
 export default SearchBar;
