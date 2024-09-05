@@ -1,3 +1,4 @@
+// import { useSearchParams } from "react-router-dom";
 import css from "./SearchBar.module.css";
 
 const SearchBar = ({ onSearch }) => {
@@ -6,6 +7,8 @@ const SearchBar = ({ onSearch }) => {
 
     const query = e.target.elements.query.value;
     onSearch(query.trim());
+
+    e.target.reset();
   };
 
   return (

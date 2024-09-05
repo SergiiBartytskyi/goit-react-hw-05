@@ -18,11 +18,11 @@ const Navigation = () => {
   };
   return (
     <header className={css.header}>
-      <nav className={css.nav}>
-        <NavLink to="/" className={buildLinkClass} ref={navigationRef}>
+      <nav className={css.nav} ref={navigationRef}>
+        <NavLink to="/" className={buildLinkClass}>
           Home
         </NavLink>
-        <NavLink to="/movies" className={buildLinkClass} ref={navigationRef}>
+        <NavLink to="/movies" className={buildLinkClass}>
           Movies
         </NavLink>
       </nav>

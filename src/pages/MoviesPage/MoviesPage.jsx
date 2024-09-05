@@ -16,16 +16,9 @@ const MoviesPage = () => {
   const [error, setError] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
-  const lastMovieRef = useRef(null);
 
   const query = searchParams.get("query") || "";
   const currentPage = Number(searchParams.get("page")) || 1;
-
-  useEffect(() => {
-    if (!loading && lastMovieRef.current) {
-      lastMovieRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [movies, loading]);
 
   useEffect(() => {
     if (query) {
@@ -73,8 +66,8 @@ const MoviesPage = () => {
   };
 
   const loadMoreMovies = () => {
-    const nextPage = currentPage + 1;
-    setSearchParams({ query, page: nextPage });
+    searchParams.set("page", currentPage + 1);
+    setSearchParams(searchParams);
   };
 
   const shouldShowLoadMore =
@@ -86,7 +79,7 @@ const MoviesPage = () => {
 
       {hasSearched &&
         (movies.length > 0 ? (
-          <MovieList movies={movies} lastMovieRef={lastMovieRef} />
+          <MovieList movies={movies} />
         ) : (
           <div className={css.error}>Not found!</div>
         ))}

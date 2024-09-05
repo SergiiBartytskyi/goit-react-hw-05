@@ -1,16 +1,21 @@
-import { useState, useEffect, Suspense } from "react";
+import { useRef, useState, useEffect, Suspense } from "react";
 import {
   useParams,
-  Link,
   useNavigate,
   useLocation,
   Outlet,
+  NavLink,
 } from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import { fetchMovieDetails } from "../../fetchTMDB";
 import { BiSolidCameraMovie } from "react-icons/bi";
+import clsx from "clsx";
 import css from "./MovieDetailsPage.module.css";
+
+const buildLinkClass = ({ isActive }) => {
+  return clsx(css.link, isActive && css.active);
+};
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
@@ -20,9 +25,9 @@ const MovieDetailsPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const backLinkHref = location.state?.from || "/movies";
+  const backLinkHref = useRef(location.state ?? "/movies");
 
-  const onClickBack = () => navigate(backLinkHref);
+  const onClickBack = () => navigate(backLinkHref.current);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -99,25 +104,19 @@ const MovieDetailsPage = () => {
       {loading && <Loader />}
       {error && <ErrorMessage />}
       <hr />
+
       <p className={css.text}>Additional information</p>
+
       <ul className={css.addInfo}>
         <li className={css.addInfoLink}>
-          <Link
-            to="cast"
-            state={{ from: backLinkHref }}
-            className={css.addInfoLink}
-          >
+          <NavLink to="cast" className={buildLinkClass}>
             Cast
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link
-            to="reviews"
-            state={{ from: backLinkHref }}
-            className={css.addInfoLink}
-          >
+          <NavLink to="reviews" className={buildLinkClass}>
             Reviews
-          </Link>
+          </NavLink>
         </li>
       </ul>
       <hr />
