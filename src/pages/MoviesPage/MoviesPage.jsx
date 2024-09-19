@@ -115,7 +115,6 @@ import MovieList from "../../components/MovieList/MovieList";
 import LoadMoreBtn from "../../components/LoadMoreBtn/LoadMoreBtn";
 import Loader from "../../components/Loader/Loader";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
-import toast, { Toaster } from "react-hot-toast";
 import css from "./MoviesPage.module.css";
 
 const MoviesPage = () => {
@@ -133,13 +132,9 @@ const MoviesPage = () => {
   useEffect(() => {
     if (!query) {
       dispatch(clearMovies());
+    } else {
+      dispatch(searchMovies({ query, page: currentPage }));
     }
-  }, [dispatch, query]);
-
-  useEffect(() => {
-    if (!query) return;
-
-    dispatch(searchMovies({ query, page: currentPage }));
   }, [dispatch, query, currentPage]);
 
   const loadMoreMovies = () => {
@@ -149,21 +144,23 @@ const MoviesPage = () => {
 
   const shouldShowLoadMore =
     movies.length > 0 && currentPage < totalPages && !isLoading;
+  console.log("hasSearched ", hasSearched);
 
   return (
     <main className={css.container}>
       <SearchBar />
-      {/* {hasSearched &&
-        (movies.length > 0 ? (
+      {hasSearched ? (
+        movies.length > 0 ? (
           <MovieList />
         ) : (
-          <div className={css.error}>Not found!</div>
-        ))} */}
-      {movies.length > 0 && <MovieList />}
+          !isLoading && <div className={css.error}>No results found!</div>
+        )
+      ) : (
+        <div className={css.error}>Please enter a search movie</div>
+      )}
       {shouldShowLoadMore && <LoadMoreBtn onClick={loadMoreMovies} />}
       {isLoading && <Loader />}
       {error && <ErrorMessage />}
-      {/* <Toaster position="top-right" reverseOrder={false} /> */}
     </main>
   );
 };

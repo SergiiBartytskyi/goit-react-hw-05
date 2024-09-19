@@ -48,7 +48,7 @@ const MovieList = () => {
 
   return (
     <ul className={css.container}>
-      {movies.flat().map(({ id, backdrop_path, title }) => {
+      {movies.map(({ id, backdrop_path, title }) => {
         return (
           <li key={id} className={css.wrapper}>
             <Link to={`/movies/${id}`} state={location} className={css.item}>

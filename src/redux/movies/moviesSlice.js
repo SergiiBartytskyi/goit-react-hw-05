@@ -11,9 +11,9 @@ const handlePending = (state) => {
   state.loading = true;
 };
 
-const handleRejected = (state, actions) => {
+const handleRejected = (state, action) => {
   state.loading = false;
-  state.error = actions.payload;
+  state.error = action.payload;
 };
 
 const slice = createSlice({
@@ -31,45 +31,52 @@ const slice = createSlice({
   reducers: {
     clearMovies: (state) => {
       state.items = [];
+      state.hasSearched = false;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchTrendingMovies.pending, handlePending)
-      .addCase(fetchTrendingMovies.fulfilled, (state, actions) => {
+      .addCase(fetchTrendingMovies.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.items = actions.payload;
+        state.items = action.payload;
       })
       .addCase(fetchTrendingMovies.rejected, handleRejected)
-      .addCase(searchMovies.pending, handlePending)
-      .addCase(searchMovies.fulfilled, (state, actions) => {
+      .addCase(searchMovies.pending, (state) => {
+        state.loading = true;
+        state.hasSearched = true;
+      })
+      .addCase(searchMovies.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.items.push(actions.payload.results);
-        state.totalPages = actions.payload.totalPages;
-        state.hasSearched = true;
+        // state.items.push(action.payload.results);
+        state.items = [...state.items, ...action.payload.results];
+        // if (action.payload.results && action.payload.results.length > 0) {
+        //   state.items = [...state.items, ...action.payload.results];
+        // }
+        state.totalPages = action.payload.totalPages;
       })
       .addCase(searchMovies.rejected, handleRejected)
       .addCase(fetchMovieDetails.pending, handlePending)
-      .addCase(fetchMovieDetails.fulfilled, (state, actions) => {
+      .addCase(fetchMovieDetails.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.movieDetails = actions.payload;
+        state.movieDetails = action.payload;
       })
       .addCase(fetchMovieDetails.rejected, handleRejected)
       .addCase(fetchMovieCast.pending, handlePending)
-      .addCase(fetchMovieCast.fulfilled, (state, actions) => {
+      .addCase(fetchMovieCast.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.cast = actions.payload;
+        state.cast = action.payload;
       })
       .addCase(fetchMovieCast.rejected, handleRejected)
       .addCase(fetchMovieReviews.pending, handlePending)
-      .addCase(fetchMovieReviews.fulfilled, (state, actions) => {
+      .addCase(fetchMovieReviews.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.reviews = actions.payload;
+        state.reviews = action.payload;
       })
       .addCase(fetchMovieReviews.rejected, handleRejected);
   },

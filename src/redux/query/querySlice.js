@@ -6,8 +6,8 @@ const slice = createSlice({
     query: "",
   },
   reducers: {
-    addQuery: (state, actions) => {
-      state.query = actions.payload;
+    addQuery: (state, action) => {
+      state.query = action.payload;
     },
   },
 });
