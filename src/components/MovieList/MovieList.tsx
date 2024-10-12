@@ -1,8 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { BiSolidCameraMovie } from "react-icons/bi";
 import css from "./MovieList.module.css";
+import { IMovieListProps } from "./MovieList.types";
 
-const MovieList = ({ movies }) => {
+const MovieList = ({ movies }: IMovieListProps) => {
   const location = useLocation();
 
   return (

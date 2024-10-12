@@ -12,18 +12,19 @@ import { fetchMovieDetails } from "../../fetchTMDB";
 import { BiSolidCameraMovie } from "react-icons/bi";
 import clsx from "clsx";
 import css from "./MovieDetailsPage.module.css";
+import { IIsActiveProps, IMovie } from "../../hooks";
 
-const buildLinkClass = ({ isActive }) => {
+const buildLinkClass = ({ isActive }: IIsActiveProps) => {
   return clsx(css.link, isActive && css.active);
 };
 
 const MovieDetailsPage = () => {
-  const { movieId } = useParams();
-  const [movie, setMovie] = useState(null);
+  const { movieId } = useParams<{ movieId: string }>();
+  const [movie, setMovie] = useState<IMovie | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const backLinkHref = useRef(location.state ?? "/movies");
 
@@ -34,15 +35,28 @@ const MovieDetailsPage = () => {
     const signal = controller.signal;
 
     const getMovie = async () => {
+      if (!movieId) {
+        setError("Movie ID is not available.");
+        return;
+      }
+
+      const numericMovieId = parseInt(movieId, 10);
+
       try {
         setLoading(true);
-        setError(false);
+        setError(null);
         setMovie(null);
-        const movieDetails = await fetchMovieDetails(movieId, { signal });
+        const movieDetails = await fetchMovieDetails(numericMovieId, {
+          signal,
+        });
         setMovie(movieDetails);
       } catch (error) {
-        if (error.name !== "AbortError") {
-          setError(true);
+        if (error instanceof Error) {
+          if (error.name !== "AbortError") {
+            setError(error.message);
+          }
+        } else {
+          setError("An unknown error has occurred.");
         }
       } finally {
         setLoading(false);
@@ -102,7 +116,7 @@ const MovieDetailsPage = () => {
         </div>
       </div>
       {loading && <Loader />}
-      {error && <ErrorMessage />}
+      {error && <ErrorMessage message={error} />}
       <hr />
 
       <p className={css.text}>Additional information</p>

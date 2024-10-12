@@ -3,28 +3,40 @@ import { useParams } from "react-router-dom";
 import { IoManSharp, IoWomanSharp } from "react-icons/io5";
 import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import { IMovieCastMember } from "../../hooks";
 import { fetchMovieCast } from "../../fetchTMDB";
 import css from "./MovieCast.module.css";
 
 const MovieCast = () => {
-  const { movieId } = useParams();
-  const [cast, setCast] = useState([]);
+  const { movieId } = useParams<{ movieId: string }>();
+  const [cast, setCast] = useState<IMovieCastMember[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
 
     const getCast = async () => {
+      if (!movieId) {
+        setError("Movie ID is not available.");
+        return;
+      }
+
+      const numericMovieId = parseInt(movieId, 10);
+
       try {
         setLoading(true);
-        setError(false);
-        const movieCast = await fetchMovieCast(movieId, { signal });
-        setCast(movieCast);
+        setError(null);
+        const movieCast = await fetchMovieCast(numericMovieId, { signal });
+        setCast(movieCast.cast);
       } catch (error) {
-        if (error.name !== "AbortError") {
-          setError(true);
+        if (error instanceof Error) {
+          if (error.name !== "AbortError") {
+            setError(error.message);
+          }
+        } else {
+          setError("An unknown error has occurred.");
         }
       } finally {
         setLoading(false);
@@ -39,7 +51,7 @@ const MovieCast = () => {
   }, [movieId]);
 
   if (loading) return <Loader />;
-  if (error) return <ErrorMessage />;
+  if (error) return <ErrorMessage message={error} />;
 
   return (
     <div>

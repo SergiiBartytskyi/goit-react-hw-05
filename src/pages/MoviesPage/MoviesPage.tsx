@@ -7,15 +7,16 @@ import LoadMoreBtn from "../../components/LoadMoreBtn/LoadMoreBtn";
 import Loader from "../../components/Loader/Loader";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import toast, { Toaster } from "react-hot-toast";
+import { IMovie } from "../../hooks";
 import css from "./MoviesPage.module.css";
 
 const MoviesPage = () => {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<IMovie[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false);
-  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [hasSearched, setHasSearched] = useState<boolean>(false);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
   const query = searchParams.get("query") || "";
   const currentPage = Number(searchParams.get("page")) || 1;
@@ -29,7 +30,7 @@ const MoviesPage = () => {
       const fetchMovies = async () => {
         try {
           setLoading(true);
-          setError(false);
+          setError(null);
 
           const data = await searchMovies(query, {
             signal,
@@ -37,11 +38,15 @@ const MoviesPage = () => {
           });
 
           setMovies((prevMovies) => [...prevMovies, ...data.results]);
-          setTotalPages(data.totalPages);
+          setTotalPages(data.total_pages);
           setHasSearched(true);
         } catch (error) {
-          if (error.name !== "AbortError") {
-            setError(true);
+          if (error instanceof Error) {
+            if (error.name !== "AbortError") {
+              setError(error.message);
+            }
+          } else {
+            setError("An unknown error has occurred.");
           }
         } finally {
           setLoading(false);
@@ -56,18 +61,17 @@ const MoviesPage = () => {
     }
   }, [query, currentPage]);
 
-  const handleSearch = (newQuery) => {
-    if (newQuery === "") {
+  const handleSearch = (newQuery: string) => {
+    if (!newQuery) {
       toast.error("Enter some title!");
       return;
-    } else {
-      setSearchParams({ query: newQuery, page: 1 });
-      setMovies([]);
     }
+    setSearchParams({ query: newQuery, page: "1" });
+    setMovies([]);
   };
 
   const loadMoreMovies = () => {
-    searchParams.set("page", currentPage + 1);
+    searchParams.set("page", (currentPage + 1).toString());
     setSearchParams(searchParams);
   };
 
@@ -88,7 +92,7 @@ const MoviesPage = () => {
       {shouldShowLoadMore && <LoadMoreBtn onClick={loadMoreMovies} />}
 
       {loading && <Loader />}
-      {error && <ErrorMessage />}
+      {error && <ErrorMessage message={error} />}
       <Toaster position="top-right" reverseOrder={false} />
     </main>
   );
