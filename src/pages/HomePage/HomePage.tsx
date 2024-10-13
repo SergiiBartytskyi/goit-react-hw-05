@@ -3,7 +3,7 @@ import MovieList from "../../components/MovieList/MovieList";
 import Loader from "../../components/Loader/Loader";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import { fetchTrendingMovies } from "../../fetchTMDB";
-import { IMovie } from "../../hooks";
+import { IMovie } from "../../types";
 import css from "./HomePage.module.css";
 
 const HomePage = () => {

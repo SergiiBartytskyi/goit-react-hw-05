@@ -12,7 +12,7 @@ import { fetchMovieDetails } from "../../fetchTMDB";
 import { BiSolidCameraMovie } from "react-icons/bi";
 import clsx from "clsx";
 import css from "./MovieDetailsPage.module.css";
-import { IIsActiveProps, IMovie } from "../../hooks";
+import { IIsActiveProps, IMovie } from "../../types";
 
 const buildLinkClass = ({ isActive }: IIsActiveProps) => {
   return clsx(css.link, isActive && css.active);

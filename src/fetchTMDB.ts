@@ -6,7 +6,7 @@ import {
   IMovieReviewsResponse,
   ISearchMoviesResponse,
   ITrendingMoviesResponse,
-} from "./hooks";
+} from "./types";
 
 const instance = axios.create({
   baseURL: "https://api.themoviedb.org/3/",
@@ -44,7 +44,7 @@ const searchMovies = async (
       signal,
     }
   );
-  console.log("response search ", response);
+
   return {
     results: response.data.results,
     total_pages: response.data.total_pages,

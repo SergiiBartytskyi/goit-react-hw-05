@@ -7,7 +7,7 @@ import LoadMoreBtn from "../../components/LoadMoreBtn/LoadMoreBtn";
 import Loader from "../../components/Loader/Loader";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import toast, { Toaster } from "react-hot-toast";
-import { IMovie } from "../../hooks";
+import { IMovie } from "../../types";
 import css from "./MoviesPage.module.css";
 
 const MoviesPage = () => {

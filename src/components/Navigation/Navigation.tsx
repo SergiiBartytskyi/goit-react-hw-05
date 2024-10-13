@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { BiArrowToTop } from "react-icons/bi";
 import clsx from "clsx";
-import { IIsActiveProps } from "../../hooks";
+import { IIsActiveProps } from "../../types";
 import css from "./Navigation.module.css";
 
 const buildLinkClass = ({ isActive }: IIsActiveProps) => {

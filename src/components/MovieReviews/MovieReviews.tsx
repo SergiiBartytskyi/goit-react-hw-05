@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { fetchMovieReviews } from "../../fetchTMDB";
-import { IMovieReview } from "../../hooks";
+import { IMovieReview } from "../../types";
 import css from "./MovieReviews.module.css";
 
 const MovieReviews = () => {

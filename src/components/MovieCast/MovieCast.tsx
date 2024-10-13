@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { IoManSharp, IoWomanSharp } from "react-icons/io5";
 import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
-import { IMovieCastMember } from "../../hooks";
+import { IMovieCastMember } from "../../types";
 import { fetchMovieCast } from "../../fetchTMDB";
 import css from "./MovieCast.module.css";
 
